@@ -22,6 +22,16 @@ userRouter.get(
   UserRoutes.getAll,
 );
 
+userRouter.get(
+  Paths.Users.Spotify,
+  UserRoutes.spotifyAuth
+)
+
+userRouter.get(
+  Paths.Users.SpotifyCallback,
+  UserRoutes.spotifyCallback
+)
+
 // Add one user
 userRouter.post(
   Paths.Users.Add,
@@ -42,6 +52,7 @@ userRouter.delete(
   validate(['id', 'number', 'params']),
   UserRoutes.delete,
 );
+
 
 // Add UserRouter
 apiRouter.use(Paths.Users.Base, userRouter);

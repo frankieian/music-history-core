@@ -27,6 +27,7 @@
     "node": ">=8.10.0"
   },
   "dependencies": {
+    "axios": "^1.5.0",
     "cookie-parser": "^1.4.6",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
@@ -39,6 +40,8 @@
     "jsonfile": "^6.1.0",
     "module-alias": "^2.2.3",
     "morgan": "^1.10.0",
+    "qs": "^6.11.2",
+    "query-string": "^8.1.0",
     "ts-command-line-args": "^2.5.1"
   },
   "devDependencies": {

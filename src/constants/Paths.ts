@@ -11,5 +11,16 @@ export default {
     Add: '/add',
     Update: '/update',
     Delete: '/delete/:id',
+    Spotify: '/spotify',
+    SpotifyCallback: '/spotify/callback'
   },
+  Link: {
+    Base: '/link',
+    Spotify: '/spotify',
+    SpotifyCallback: 'spotify/callback'
+  },
+  Auth: {
+    Base: '/auth',
+    login: '/login',
+  }
 } as const;
