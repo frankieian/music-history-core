@@ -1,4 +1,4 @@
-import { defaults } from "@src/constants/misc"
+import { defaults, options } from "@src/constants/misc"
 import { atLeastOneDefined } from "@src/library/zod"
 import { UserRoles } from "@src/models/User"
 import {z} from "zod"
@@ -31,7 +31,7 @@ export const editUserRequestSchema = editUserBodySchema
 export type editUserRequest = z.infer<typeof editUserRequestSchema>
 
 export const userHistoryBodySchema = z.object({
-    sort: z.enum(defaults.sort as any).optional(),
+    sort: z.enum(options.sort as any).default(defaults.sort),
     page: z.number().default(defaults.page),
     pageSize: z.number().default(defaults.pageSize),
     dateFrom: z.string().datetime(),
@@ -46,9 +46,12 @@ export type userHistoryRequest = z.infer<typeof userHistoryRequestSchema>
 
 
 export const userHistorySummaryBodySchema = z.object({
-    sort: z.enum(defaults.sort as any).optional(),
+    //sort: z.enum(options.sort as any).default(defaults.sort),
     page: z.number().default(defaults.page),
-    pageSize: z.number().default(defaults.pageSize)
+    pageSize: z.number().default(defaults.pageSize),
+    dateFrom: z.string().datetime(),
+    dateTo: z.string().datetime()
+
 })
 
 export type userHistorySummaryBody = z.infer<typeof userHistorySummaryBodySchema>

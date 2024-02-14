@@ -4,7 +4,7 @@ import { RouteError } from '@src/other/classes';
 import HttpStatusCodes from '@src/constants/HttpStatusCodes';
 import { Prisma, PrismaClient, user } from '@prisma/client';
 import {prisma} from "@src/constants/db"
-import { editUserBody, registerUserBody, userHistoryBody } from '../types/user/request';
+import { editUserBody, registerUserBody, userHistoryBody, userHistorySummaryBody } from '../types/user/request';
 import { generateArgonHash } from '@src/library/auth/pass';
 import UserModel from "@src/models/User"
 import { findUser } from '@src/library/db/user';
@@ -145,7 +145,7 @@ async function getUserHistory(id: number, filters: userHistoryBody) {
       },
       ...where,
       orderBy: {
-        played_at: 'desc'
+        played_at: filters.sort
       },
       skip: pagination(filters.page, filters.pageSize),
       take: filters.pageSize,
@@ -176,7 +176,7 @@ async function getUserHistory(id: number, filters: userHistoryBody) {
 /**
  * Get song history statics of user using user.id
  */
-async function getUserSongHistoryStats(id: number, filters: userHistoryBody) {
+async function getUserSongHistoryStats(id: number, filters: userHistorySummaryBody) {
   let numItems = await prisma.$queryRaw`
     SELECT count(distinct song.id) as count FROM history
     inner join song
@@ -194,7 +194,6 @@ async function getUserSongHistoryStats(id: number, filters: userHistoryBody) {
     'Internal error',
   ) 
   let count = numItems[0].count.toString()
-
 
   let songHistory = await prisma.$queryRaw`
     SELECT song.name, song.id, count(history.played_at) as count FROM history
@@ -223,7 +222,7 @@ async function getUserSongHistoryStats(id: number, filters: userHistoryBody) {
 /**
  * Get artist history statistics of a user using user.id
  */
-async function getUserArtistHistoryStats(id: number, filters: userHistoryBody) {
+async function getUserArtistHistoryStats(id: number, filters: userHistorySummaryBody) {
   let numItems = await prisma.$queryRaw`
     SELECT count(distinct artist_id) as count FROM history
     inner join song

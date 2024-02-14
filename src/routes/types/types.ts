@@ -1,4 +1,4 @@
-import { users } from '@prisma/client';
+import { user } from '@prisma/client';
 import * as e from 'express';
 import { Query } from 'express-serve-static-core';
 
@@ -7,7 +7,7 @@ import { Query } from 'express-serve-static-core';
 
 export interface IReq<T = any> extends e.Request {
   body: T;
-  user?: users
+  user?: user
 }
 
 export interface IReqQuery<T extends Query, U = void> extends e.Request {

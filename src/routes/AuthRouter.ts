@@ -31,14 +31,6 @@ AuthRouter.post(
   AuthService.revokeToken
 )
 
-
-//Google-login
-///api/login/google
-AuthRouter.post(
-  Paths.Auth.Google
-
-)
-
 export default AuthRouter
 
 

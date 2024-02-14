@@ -7,6 +7,10 @@ export enum NodeEnvs {
 export const defaults = {
   pageSize: 20,
   page: 1,
+  sort: "desc"
+}
+
+export const options = {
   sort: ["asc", "desc"]
 }
 
