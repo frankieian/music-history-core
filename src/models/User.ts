@@ -1,11 +1,14 @@
 // **** Variables **** //
 
+import { Prisma } from "@prisma/client";
+import { user } from "@prisma/client";
+
 const INVALID_CONSTRUCTOR_PARAM = 'nameOrObj arg must a string or an ' + 
   'object with the appropriate user keys.';
 
 export enum UserRoles {
-  Standard,
-  Admin,
+  Standard = 'standard',
+  Admin = 'admin',
 }
 
 
@@ -13,53 +16,56 @@ export enum UserRoles {
 
 export interface IUser {
   id: number;
-  name: string;
+  username: string;
+  firstName: string;
+  lastName: string;
+  role: UserRoles;
   email: string;
   pwdHash?: string;
-  role?: UserRoles;
+  created_at: Date;
 }
-
-export interface ISessionUser {
-  id: number;
-  email: string;
-  name: string;
-  role: IUser['role'];
-}
-
 
 // **** Functions **** //
 
+
 /**
- * Create new User.
+ * Create new user
  */
-function new_(
-  name?: string,
+
+function new_(data: {
+  username?: string,
+  firstName?: string,
+  lastName?: string,
   email?: string,
   role?: UserRoles,
   pwdHash?: string,
-  id?: number, // id last cause usually set by db
-): IUser {
+  created_at?: Date,
+  id?: number
+}): Prisma.userCreateInput {
   return {
-    id: (id ?? -1),
-    name: (name ?? ''),
-    email: (email ?? ''),
-    role: (role ?? UserRoles.Standard),
-    pwdHash: (pwdHash ?? ''),
+    ...(data.id ? {id: data.id} : {}),
+    username: (data.username ?? ''),
+    firstName: (data.firstName ?? ''),
+    lastName: (data.lastName ?? ''),
+    email: (data.email ?? ''),
+    role: (data.role ?? UserRoles.Standard),
+    pwdHash: (data.pwdHash ?? ''),
+    created_at: (data.created_at ?? new Date())
   };
 }
 
 /**
  * Get user instance from object.
  */
-function from(param: object): IUser {
-  // Check is user
-  if (!isUser(param)) {
-    throw new Error(INVALID_CONSTRUCTOR_PARAM);
-  }
-  // Get user instance
-  const p = param as IUser;
-  return new_(p.name, p.email, p.role, p.pwdHash, p.id);
-}
+//function from(param: object): IUser {
+//  // Check is user
+//  if (!isUser(param)) {
+//    throw new Error(INVALID_CONSTRUCTOR_PARAM);
+//  }
+//  // Get user instance
+//  const p = param as IUser;
+//  //return new_(p.username, p.firstName, p.lastName, p.email, p.role, p.pwdHash, p.id, p.created_at);
+//}
 
 /**
  * See if the param meets criteria to be a user.
@@ -80,6 +86,6 @@ function isUser(arg: unknown): boolean {
 
 export default {
   new: new_,
-  from,
+  //from,
   isUser,
 } as const;

@@ -11,9 +11,11 @@ import HttpStatusCodes from '@src/constants/HttpStatusCodes';
 export class RouteError extends Error {
 
   public status: HttpStatusCodes;
+  public error: any;
 
-  public constructor(status: HttpStatusCodes, message: string) {
+  public constructor(status: HttpStatusCodes, message: string, error?: any) {
     super(message);
     this.status = status;
+    this.error = JSON.stringify(error)
   }
 }

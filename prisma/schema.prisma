@@ -1,0 +1,113 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+generator zod {
+  provider = "zod-prisma-types"
+}
+
+datasource db {
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+model artist {
+  id   String  @id @db.VarChar(255)
+  name String? @db.VarChar(255)
+}
+
+model artist_genre {
+  artist_id String @db.VarChar(255)
+  genre_id  Int
+
+  @@id([artist_id, genre_id])
+  @@index([genre_id], map: "idx_genre_id")
+}
+
+model artist_song {
+  artist_id String @db.VarChar(255)
+  song_id   String @db.VarChar(255)
+
+  @@id([artist_id, song_id])
+  @@index([song_id], map: "song_id")
+}
+
+model genre {
+  id    Int     @id
+  genre String? @db.VarChar(255)
+}
+
+model history {
+  user_id   Int
+  song_id   String   @db.VarChar(255)
+  played_at DateTime @db.Timestamp(0)
+
+  @@id([user_id, song_id, played_at])
+  @@index([song_id], map: "song_id")
+}
+
+model integration {
+  id            String    @db.VarChar(255)
+  provider      String    @db.VarChar(255)
+  user_id       Int?
+  refresh_token String?   @db.VarChar(255)
+  status        String?   @db.VarChar(255)
+  created_at    DateTime? @db.Timestamp(0)
+  last_used     DateTime? @db.Timestamp(0)
+
+  @@id([id, provider])
+  @@index([user_id], map: "user_id")
+}
+
+model song {
+  id       String  @id @db.VarChar(255)
+  name     String? @db.VarChar(255)
+  duration Float?
+}
+
+model song_genre {
+  song_id  String @db.VarChar(255)
+  genre_id Int
+
+  @@id([song_id, genre_id])
+  @@index([genre_id], map: "idx_genre_id")
+}
+
+model external_ids {
+  table_name  String  @db.VarChar(255)
+  id          Int
+  type        String? @db.VarChar(255)
+  external_id String? @db.VarChar(255)
+
+  @@id([table_name, id])
+}
+
+model song_genre_genre {
+  song_genre_genre_id Int
+  genre_id            Int
+
+  @@id([song_genre_genre_id, genre_id])
+  @@index([genre_id], map: "genre_id")
+}
+
+model user {
+  id         Int       @id @default(autoincrement())
+  username   String?   @db.VarChar(255)
+  firstName  String?   @db.VarChar(255)
+  lastName   String?   @db.VarChar(255)
+  role       String?   @db.VarChar(255)
+  email      String?   @db.VarChar(255)
+  pwdHash    String?   @db.VarChar(255)
+  created_at DateTime? @db.Timestamp(0)
+}
+
+model token {
+  id         Int       @id @default(autoincrement())
+  token      String?   @db.Text
+  created_at DateTime? @db.Timestamp(0)
+  expiry     DateTime? @db.Timestamp(0)
+  status     Int?
+  device_id  String?   @db.VarChar(255)
+  username   String?   @db.VarChar(255)
+}

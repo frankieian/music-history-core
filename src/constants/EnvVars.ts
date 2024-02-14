@@ -16,13 +16,17 @@ export default {
       httpOnly: true,
       signed: true,
       path: (process.env.COOKIE_PATH ?? ''),
-      maxAge: Number(process.env.COOKIE_EXP ?? 0),
+      //maxAge: Number(process.env.COOKIE_EXP ?? 0),
       domain: (process.env.COOKIE_DOMAIN ?? ''),
       secure: (process.env.SECURE_COOKIE === 'true'),
     },
   },
+  Refresh: {
+    Secret: (process.env.AUTH_REFRESH_SECRET ??  ''),
+    Exp: (process.env.REFRESH_EXP ?? ''), // exp at the same time as the cookie
+  },
   Jwt: {
-    Secret: (process.env.JWT_SECRET ??  ''),
-    Exp: (process.env.COOKIE_EXP ?? ''), // exp at the same time as the cookie
+    Secret: (process.env.AUTH_TOKEN_SECRET ??  ''),
+    Exp: process.env.JWT_EXP, // exp at the same time as the cookie
   },
 } as const;

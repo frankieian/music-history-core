@@ -5,14 +5,18 @@
 
 export default {
   Base: '/api',
-  Users: {
-    Base: '/users',
-    Get: '/all',
-    Add: '/add',
+  User: {
+    Base: '/user',
+    GetAll: '/all',
+    Get: '',
+    Register: '/register',
     Update: '/update',
     Delete: '/delete/:id',
     Spotify: '/spotify',
-    SpotifyCallback: '/spotify/callback'
+    SpotifyCallback: '/spotify/callback',
+    History: '/history',
+    ArtistStats: '/stats/artist',
+    SongStats: '/stats/song'
   },
   Link: {
     Base: '/link',
@@ -21,6 +25,9 @@ export default {
   },
   Auth: {
     Base: '/auth',
-    login: '/login',
+    Login: '/login',
+    RefreshToken: '/refresh-token',
+    RevokeToken: '/revoke-token',
+    Google: '/login/google'
   }
 } as const;

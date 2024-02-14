@@ -7,7 +7,7 @@ import app from '@src/server';
 import UserRepo from '@src/repos/UserRepo';
 import User from '@src/models/User';
 import HttpStatusCodes from '@src/constants/HttpStatusCodes';
-import { USER_NOT_FOUND_ERR } from '@src/services/UserService';
+import { USER_NOT_FOUND_ERR } from '@src/routes/functions/UserFunctions';
 
 import Paths from 'spec/support/Paths';
 import { TReqBody } from 'spec/support/types';
@@ -49,9 +49,9 @@ describe('UserRouter', () => {
   });
 
   // ** Get all users ** //
-  describe(`"GET:${Paths.Users.Get}"`, () => {
+  describe(`"GET:${Paths.User.GetAll}"`, () => {
 
-    const callApi = () => agent.get(Paths.Users.Get);
+    const callApi = () => agent.get(Paths.User.GetAll);
 
     // Success
     it('should return a JSON object with all the users and a status code ' + 
@@ -72,13 +72,13 @@ describe('UserRouter', () => {
   });
 
   // Test add user
-  describe(`"POST:${Paths.Users.Add}"`, () => {
+  describe(`"POST:${Paths.User.Add}"`, () => {
 
     const ERROR_MSG = `${ValidatorErr}"user".`;
 
     const callApi = (reqBody: TReqBody) => 
       agent
-        .post(Paths.Users.Add)
+        .post(Paths.User.Add)
         .type('form').send(reqBody);
 
     // Test add user success
@@ -110,13 +110,13 @@ describe('UserRouter', () => {
   });
 
   // ** Update users ** //
-  describe(`"PUT:${Paths.Users.Update}"`, () => {
+  describe(`"PUT:${Paths.User.Update}"`, () => {
 
     const ERROR_MSG = `${ValidatorErr}"user".`;
 
     const callApi = (reqBody: TReqBody) => 
       agent
-        .put(Paths.Users.Update)
+        .put(Paths.User.Update)
         .type('form').send(reqBody);
 
     // Success
@@ -162,13 +162,13 @@ describe('UserRouter', () => {
   });
 
   // ** Delete user ** //
-  describe(`"DELETE:${Paths.Users.Delete}"`, () => {
+  describe(`"DELETE:${Paths.User.Delete}"`, () => {
 
     const VALIDATOR_ERR = `${ValidatorErr}"id".`;
 
     const callApi = (id: number) => 
       agent
-        .delete(insertUrlParams(Paths.Users.Delete, { id }));
+        .delete(insertUrlParams(Paths.User.Delete, { id }));
 
     // Success
     it(`should return a status code of "${OK}" if the request was successful.`, 
