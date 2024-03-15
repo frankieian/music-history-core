@@ -8,6 +8,7 @@ import path from 'path';
 import helmet from 'helmet';
 import express, { Request, Response, NextFunction } from 'express';
 import logger from 'jet-logger';
+import cors from "cors"
 
 import 'express-async-errors';
 
@@ -25,7 +26,12 @@ import { RouteError } from '@src/other/classes';
 // **** Variables **** //
 
 const app = express();
-
+const corsOptions = {
+  origin : "*",
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  preflightContinue: true,
+  credentials: true,
+}
 
 // **** Setup **** //
 
@@ -43,6 +49,8 @@ if (EnvVars.NodeEnv === NodeEnvs.Dev.valueOf()) {
 if (EnvVars.NodeEnv === NodeEnvs.Production.valueOf()) {
   app.use(helmet());
 }
+app.use(cors(corsOptions))
+
 
 // Add APIs, must be after middleware
 app.use(Paths.Base, BaseRouter);

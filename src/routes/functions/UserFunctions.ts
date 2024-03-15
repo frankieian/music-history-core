@@ -177,14 +177,22 @@ async function getUserHistory(id: number, filters: userHistoryBody) {
  * Get song history statics of user using user.id
  */
 async function getUserSongHistoryStats(id: number, filters: userHistorySummaryBody) {
+  let totalSongs = await prisma.$queryRaw`
+    SELECT count(song_id) as count FROM history
+    where history.played_at >= ${filters.dateFrom} and
+    history.played_at <= ${filters.dateTo}
+  `  as {count: bigint}[]
+  
+  let totalSongCount = totalSongs[0].count.toString()
+
   let numItems = await prisma.$queryRaw`
     SELECT count(distinct song.id) as count FROM history
-    inner join song
+    join song
     ON song.id = history.song_id
-    inner join artist_song
-    ON artist_song.song_id = song.id
-    inner join artist
-    ON artist.id = artist_song.artist_id
+    join artist_song
+    ON artist_song.song_id = history.song_id
+    join artist
+    ON artist_song.artist_id = artist.id
     where history.played_at >= ${filters.dateFrom} and
     history.played_at <= ${filters.dateTo}
   ` as {count: bigint}[]
@@ -196,16 +204,16 @@ async function getUserSongHistoryStats(id: number, filters: userHistorySummaryBo
   let count = numItems[0].count.toString()
 
   let songHistory = await prisma.$queryRaw`
-    SELECT song.name, song.id, count(history.played_at) as count FROM history
-    inner join song
+    SELECT history.song_id as songId, song.name as songName, artist.id as artistId, artist.name as artistName, count(history.played_at) as count FROM history
+    join song
     ON song.id = history.song_id
-    inner join artist_song
-    ON artist_song.song_id = song.id
-    inner join artist
-    ON artist.id = artist_song.artist_id
+    join artist_song
+    ON artist_song.song_id = history.song_id
+    join artist
+    ON artist_song.artist_id = artist.id
     where history.played_at >= ${filters.dateFrom} and
     history.played_at <= ${filters.dateTo}
-    group by song.id
+    group by history.song_id, artist.id, song.name
     order by count desc
     limit ${filters.pageSize}
     offset ${pagination(filters.page, filters.pageSize)}
@@ -213,6 +221,7 @@ async function getUserSongHistoryStats(id: number, filters: userHistorySummaryBo
 
   return {
     pages: Math.round(Number(count) / filters.pageSize),
+    totalCount: totalSongCount,
     items: count,
     data: songHistory.map(o => ({...o, count: o.count.toString()})),
 

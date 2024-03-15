@@ -35,6 +35,7 @@ const result2 = dotenv.config({
 
 dotenv.config({
   path: path.join(__dirname, `../.env`),
+  override: true
 });
 
 

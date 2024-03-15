@@ -17,10 +17,11 @@ async function login(req:IReq<loginRequest>, res: IRes) {
 
     res.cookie("music_history_refresh", refreshToken.token, {maxAge: refreshToken.expiresIn})
 
-    return res.status(HttpStatusCodes.OK).json(bearerToken);
+    return res.status(HttpStatusCodes.OK).json({bearerToken, refreshToken});
 }
 
 async function refreshToken(req:IReq, res: IRes) {
+    console.log("req.headers", req.headers)
     let refreshToken = req.cookies["music_history_refresh"]
     let bearerToken = await AuthFunctions.refreshToken(refreshToken)
 

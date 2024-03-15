@@ -74,6 +74,14 @@ const authenticateRefreshToken = async (refreshToken: string) => {
        
     } catch (err) {
         console.log('invalid error', err)
+        if(err?.message == "jwt expired") {
+            return {
+                success: false,
+                expired: true,
+                message: "jwt expired"
+            }
+        }
+
 
         return {
             success: false,
@@ -91,7 +99,7 @@ const authenticateAccessToken = async (req: IReq, res: IRes, next: NextFunction)
     
         let data = jwt.verify(token, constants.Jwt.Secret, {complete: true})
         let payload = data.payload as tokenPayload
-        if(!payload.username)  return res.sendStatus(401)
+        if(!payload.username)  return res.sendStatus(403)
 
         let user = await findUser(payload.username)
 
@@ -103,6 +111,9 @@ const authenticateAccessToken = async (req: IReq, res: IRes, next: NextFunction)
        
     } catch (err) {
         console.log(err)
+        if(err?.message == "jwt expired") {
+            return res.sendStatus(403)
+        }
 
         return res.sendStatus(401)
     }
