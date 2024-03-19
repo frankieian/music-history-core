@@ -28,6 +28,8 @@ export default {
     Login: '/login',
     RefreshToken: '/refresh-token',
     RevokeToken: '/revoke-token',
-    Google: '/login/google'
+    Google: '/login/google',
+    Spotify: '/login/spotify',
+    SpotifyCallback: '/login/spotify/callback'
   }
 } as const;

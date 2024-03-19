@@ -18,6 +18,7 @@ const userRouter = Router();
 userRouter.post(
   Paths.User.Register,
   validateBody(schema.registerUserRequestSchema),
+  validateRole(UserRoles.Admin),
   UserService.register
 )
 
