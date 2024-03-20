@@ -165,7 +165,7 @@ export const spotifyLogin = async(code: string) => {
         }
 
     } catch(err) {
-        console.log(err)
+        console.log(err.message)
         return  {success: false, error: "could not get token from spotify"}
     }
 }
