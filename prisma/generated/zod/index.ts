@@ -30,8 +30,6 @@ export const Song_genreScalarFieldEnumSchema = z.enum(['song_id','genre_id']);
 
 export const External_idsScalarFieldEnumSchema = z.enum(['table_name','id','type','external_id']);
 
-export const Song_genre_genreScalarFieldEnumSchema = z.enum(['song_genre_genre_id','genre_id']);
-
 export const UserScalarFieldEnumSchema = z.enum(['id','username','firstName','lastName','role','email','pwdHash','created_at']);
 
 export const TokenScalarFieldEnumSchema = z.enum(['id','token','created_at','expiry','status','device_id','username']);
@@ -152,17 +150,6 @@ export const external_idsSchema = z.object({
 export type external_ids = z.infer<typeof external_idsSchema>
 
 /////////////////////////////////////////
-// SONG GENRE GENRE SCHEMA
-/////////////////////////////////////////
-
-export const song_genre_genreSchema = z.object({
-  song_genre_genre_id: z.number().int(),
-  genre_id: z.number().int(),
-})
-
-export type song_genre_genre = z.infer<typeof song_genre_genreSchema>
-
-/////////////////////////////////////////
 // USER SCHEMA
 /////////////////////////////////////////
 
@@ -278,14 +265,6 @@ export const external_idsSelectSchema: z.ZodType<Prisma.external_idsSelect> = z.
   id: z.boolean().optional(),
   type: z.boolean().optional(),
   external_id: z.boolean().optional(),
-}).strict()
-
-// SONG GENRE GENRE
-//------------------------------------------------------
-
-export const song_genre_genreSelectSchema: z.ZodType<Prisma.song_genre_genreSelect> = z.object({
-  song_genre_genre_id: z.boolean().optional(),
-  genre_id: z.boolean().optional(),
 }).strict()
 
 // USER
@@ -743,49 +722,6 @@ export const external_idsScalarWhereWithAggregatesInputSchema: z.ZodType<Prisma.
   id: z.union([ z.lazy(() => IntWithAggregatesFilterSchema),z.number() ]).optional(),
   type: z.union([ z.lazy(() => StringNullableWithAggregatesFilterSchema),z.string() ]).optional().nullable(),
   external_id: z.union([ z.lazy(() => StringNullableWithAggregatesFilterSchema),z.string() ]).optional().nullable(),
-}).strict();
-
-export const song_genre_genreWhereInputSchema: z.ZodType<Prisma.song_genre_genreWhereInput> = z.object({
-  AND: z.union([ z.lazy(() => song_genre_genreWhereInputSchema),z.lazy(() => song_genre_genreWhereInputSchema).array() ]).optional(),
-  OR: z.lazy(() => song_genre_genreWhereInputSchema).array().optional(),
-  NOT: z.union([ z.lazy(() => song_genre_genreWhereInputSchema),z.lazy(() => song_genre_genreWhereInputSchema).array() ]).optional(),
-  song_genre_genre_id: z.union([ z.lazy(() => IntFilterSchema),z.number() ]).optional(),
-  genre_id: z.union([ z.lazy(() => IntFilterSchema),z.number() ]).optional(),
-}).strict();
-
-export const song_genre_genreOrderByWithRelationInputSchema: z.ZodType<Prisma.song_genre_genreOrderByWithRelationInput> = z.object({
-  song_genre_genre_id: z.lazy(() => SortOrderSchema).optional(),
-  genre_id: z.lazy(() => SortOrderSchema).optional()
-}).strict();
-
-export const song_genre_genreWhereUniqueInputSchema: z.ZodType<Prisma.song_genre_genreWhereUniqueInput> = z.object({
-  song_genre_genre_id_genre_id: z.lazy(() => song_genre_genreSong_genre_genre_idGenre_idCompoundUniqueInputSchema)
-})
-.and(z.object({
-  song_genre_genre_id_genre_id: z.lazy(() => song_genre_genreSong_genre_genre_idGenre_idCompoundUniqueInputSchema).optional(),
-  AND: z.union([ z.lazy(() => song_genre_genreWhereInputSchema),z.lazy(() => song_genre_genreWhereInputSchema).array() ]).optional(),
-  OR: z.lazy(() => song_genre_genreWhereInputSchema).array().optional(),
-  NOT: z.union([ z.lazy(() => song_genre_genreWhereInputSchema),z.lazy(() => song_genre_genreWhereInputSchema).array() ]).optional(),
-  song_genre_genre_id: z.union([ z.lazy(() => IntFilterSchema),z.number().int() ]).optional(),
-  genre_id: z.union([ z.lazy(() => IntFilterSchema),z.number().int() ]).optional(),
-}).strict());
-
-export const song_genre_genreOrderByWithAggregationInputSchema: z.ZodType<Prisma.song_genre_genreOrderByWithAggregationInput> = z.object({
-  song_genre_genre_id: z.lazy(() => SortOrderSchema).optional(),
-  genre_id: z.lazy(() => SortOrderSchema).optional(),
-  _count: z.lazy(() => song_genre_genreCountOrderByAggregateInputSchema).optional(),
-  _avg: z.lazy(() => song_genre_genreAvgOrderByAggregateInputSchema).optional(),
-  _max: z.lazy(() => song_genre_genreMaxOrderByAggregateInputSchema).optional(),
-  _min: z.lazy(() => song_genre_genreMinOrderByAggregateInputSchema).optional(),
-  _sum: z.lazy(() => song_genre_genreSumOrderByAggregateInputSchema).optional()
-}).strict();
-
-export const song_genre_genreScalarWhereWithAggregatesInputSchema: z.ZodType<Prisma.song_genre_genreScalarWhereWithAggregatesInput> = z.object({
-  AND: z.union([ z.lazy(() => song_genre_genreScalarWhereWithAggregatesInputSchema),z.lazy(() => song_genre_genreScalarWhereWithAggregatesInputSchema).array() ]).optional(),
-  OR: z.lazy(() => song_genre_genreScalarWhereWithAggregatesInputSchema).array().optional(),
-  NOT: z.union([ z.lazy(() => song_genre_genreScalarWhereWithAggregatesInputSchema),z.lazy(() => song_genre_genreScalarWhereWithAggregatesInputSchema).array() ]).optional(),
-  song_genre_genre_id: z.union([ z.lazy(() => IntWithAggregatesFilterSchema),z.number() ]).optional(),
-  genre_id: z.union([ z.lazy(() => IntWithAggregatesFilterSchema),z.number() ]).optional(),
 }).strict();
 
 export const userWhereInputSchema: z.ZodType<Prisma.userWhereInput> = z.object({
@@ -1303,41 +1239,6 @@ export const external_idsUncheckedUpdateManyInputSchema: z.ZodType<Prisma.extern
   id: z.union([ z.number().int(),z.lazy(() => IntFieldUpdateOperationsInputSchema) ]).optional(),
   type: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   external_id: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
-}).strict();
-
-export const song_genre_genreCreateInputSchema: z.ZodType<Prisma.song_genre_genreCreateInput> = z.object({
-  song_genre_genre_id: z.number().int(),
-  genre_id: z.number().int()
-}).strict();
-
-export const song_genre_genreUncheckedCreateInputSchema: z.ZodType<Prisma.song_genre_genreUncheckedCreateInput> = z.object({
-  song_genre_genre_id: z.number().int(),
-  genre_id: z.number().int()
-}).strict();
-
-export const song_genre_genreUpdateInputSchema: z.ZodType<Prisma.song_genre_genreUpdateInput> = z.object({
-  song_genre_genre_id: z.union([ z.number().int(),z.lazy(() => IntFieldUpdateOperationsInputSchema) ]).optional(),
-  genre_id: z.union([ z.number().int(),z.lazy(() => IntFieldUpdateOperationsInputSchema) ]).optional(),
-}).strict();
-
-export const song_genre_genreUncheckedUpdateInputSchema: z.ZodType<Prisma.song_genre_genreUncheckedUpdateInput> = z.object({
-  song_genre_genre_id: z.union([ z.number().int(),z.lazy(() => IntFieldUpdateOperationsInputSchema) ]).optional(),
-  genre_id: z.union([ z.number().int(),z.lazy(() => IntFieldUpdateOperationsInputSchema) ]).optional(),
-}).strict();
-
-export const song_genre_genreCreateManyInputSchema: z.ZodType<Prisma.song_genre_genreCreateManyInput> = z.object({
-  song_genre_genre_id: z.number().int(),
-  genre_id: z.number().int()
-}).strict();
-
-export const song_genre_genreUpdateManyMutationInputSchema: z.ZodType<Prisma.song_genre_genreUpdateManyMutationInput> = z.object({
-  song_genre_genre_id: z.union([ z.number().int(),z.lazy(() => IntFieldUpdateOperationsInputSchema) ]).optional(),
-  genre_id: z.union([ z.number().int(),z.lazy(() => IntFieldUpdateOperationsInputSchema) ]).optional(),
-}).strict();
-
-export const song_genre_genreUncheckedUpdateManyInputSchema: z.ZodType<Prisma.song_genre_genreUncheckedUpdateManyInput> = z.object({
-  song_genre_genre_id: z.union([ z.number().int(),z.lazy(() => IntFieldUpdateOperationsInputSchema) ]).optional(),
-  genre_id: z.union([ z.number().int(),z.lazy(() => IntFieldUpdateOperationsInputSchema) ]).optional(),
 }).strict();
 
 export const userCreateInputSchema: z.ZodType<Prisma.userCreateInput> = z.object({
@@ -1926,36 +1827,6 @@ export const external_idsMinOrderByAggregateInputSchema: z.ZodType<Prisma.extern
 
 export const external_idsSumOrderByAggregateInputSchema: z.ZodType<Prisma.external_idsSumOrderByAggregateInput> = z.object({
   id: z.lazy(() => SortOrderSchema).optional()
-}).strict();
-
-export const song_genre_genreSong_genre_genre_idGenre_idCompoundUniqueInputSchema: z.ZodType<Prisma.song_genre_genreSong_genre_genre_idGenre_idCompoundUniqueInput> = z.object({
-  song_genre_genre_id: z.number(),
-  genre_id: z.number()
-}).strict();
-
-export const song_genre_genreCountOrderByAggregateInputSchema: z.ZodType<Prisma.song_genre_genreCountOrderByAggregateInput> = z.object({
-  song_genre_genre_id: z.lazy(() => SortOrderSchema).optional(),
-  genre_id: z.lazy(() => SortOrderSchema).optional()
-}).strict();
-
-export const song_genre_genreAvgOrderByAggregateInputSchema: z.ZodType<Prisma.song_genre_genreAvgOrderByAggregateInput> = z.object({
-  song_genre_genre_id: z.lazy(() => SortOrderSchema).optional(),
-  genre_id: z.lazy(() => SortOrderSchema).optional()
-}).strict();
-
-export const song_genre_genreMaxOrderByAggregateInputSchema: z.ZodType<Prisma.song_genre_genreMaxOrderByAggregateInput> = z.object({
-  song_genre_genre_id: z.lazy(() => SortOrderSchema).optional(),
-  genre_id: z.lazy(() => SortOrderSchema).optional()
-}).strict();
-
-export const song_genre_genreMinOrderByAggregateInputSchema: z.ZodType<Prisma.song_genre_genreMinOrderByAggregateInput> = z.object({
-  song_genre_genre_id: z.lazy(() => SortOrderSchema).optional(),
-  genre_id: z.lazy(() => SortOrderSchema).optional()
-}).strict();
-
-export const song_genre_genreSumOrderByAggregateInputSchema: z.ZodType<Prisma.song_genre_genreSumOrderByAggregateInput> = z.object({
-  song_genre_genre_id: z.lazy(() => SortOrderSchema).optional(),
-  genre_id: z.lazy(() => SortOrderSchema).optional()
 }).strict();
 
 export const userCountOrderByAggregateInputSchema: z.ZodType<Prisma.userCountOrderByAggregateInput> = z.object({
@@ -2800,63 +2671,6 @@ export const external_idsFindUniqueOrThrowArgsSchema: z.ZodType<Prisma.external_
   where: external_idsWhereUniqueInputSchema,
 }).strict() ;
 
-export const song_genre_genreFindFirstArgsSchema: z.ZodType<Prisma.song_genre_genreFindFirstArgs> = z.object({
-  select: song_genre_genreSelectSchema.optional(),
-  where: song_genre_genreWhereInputSchema.optional(),
-  orderBy: z.union([ song_genre_genreOrderByWithRelationInputSchema.array(),song_genre_genreOrderByWithRelationInputSchema ]).optional(),
-  cursor: song_genre_genreWhereUniqueInputSchema.optional(),
-  take: z.number().optional(),
-  skip: z.number().optional(),
-  distinct: z.union([ Song_genre_genreScalarFieldEnumSchema,Song_genre_genreScalarFieldEnumSchema.array() ]).optional(),
-}).strict() ;
-
-export const song_genre_genreFindFirstOrThrowArgsSchema: z.ZodType<Prisma.song_genre_genreFindFirstOrThrowArgs> = z.object({
-  select: song_genre_genreSelectSchema.optional(),
-  where: song_genre_genreWhereInputSchema.optional(),
-  orderBy: z.union([ song_genre_genreOrderByWithRelationInputSchema.array(),song_genre_genreOrderByWithRelationInputSchema ]).optional(),
-  cursor: song_genre_genreWhereUniqueInputSchema.optional(),
-  take: z.number().optional(),
-  skip: z.number().optional(),
-  distinct: z.union([ Song_genre_genreScalarFieldEnumSchema,Song_genre_genreScalarFieldEnumSchema.array() ]).optional(),
-}).strict() ;
-
-export const song_genre_genreFindManyArgsSchema: z.ZodType<Prisma.song_genre_genreFindManyArgs> = z.object({
-  select: song_genre_genreSelectSchema.optional(),
-  where: song_genre_genreWhereInputSchema.optional(),
-  orderBy: z.union([ song_genre_genreOrderByWithRelationInputSchema.array(),song_genre_genreOrderByWithRelationInputSchema ]).optional(),
-  cursor: song_genre_genreWhereUniqueInputSchema.optional(),
-  take: z.number().optional(),
-  skip: z.number().optional(),
-  distinct: z.union([ Song_genre_genreScalarFieldEnumSchema,Song_genre_genreScalarFieldEnumSchema.array() ]).optional(),
-}).strict() ;
-
-export const song_genre_genreAggregateArgsSchema: z.ZodType<Prisma.song_genre_genreAggregateArgs> = z.object({
-  where: song_genre_genreWhereInputSchema.optional(),
-  orderBy: z.union([ song_genre_genreOrderByWithRelationInputSchema.array(),song_genre_genreOrderByWithRelationInputSchema ]).optional(),
-  cursor: song_genre_genreWhereUniqueInputSchema.optional(),
-  take: z.number().optional(),
-  skip: z.number().optional(),
-}).strict() ;
-
-export const song_genre_genreGroupByArgsSchema: z.ZodType<Prisma.song_genre_genreGroupByArgs> = z.object({
-  where: song_genre_genreWhereInputSchema.optional(),
-  orderBy: z.union([ song_genre_genreOrderByWithAggregationInputSchema.array(),song_genre_genreOrderByWithAggregationInputSchema ]).optional(),
-  by: Song_genre_genreScalarFieldEnumSchema.array(),
-  having: song_genre_genreScalarWhereWithAggregatesInputSchema.optional(),
-  take: z.number().optional(),
-  skip: z.number().optional(),
-}).strict() ;
-
-export const song_genre_genreFindUniqueArgsSchema: z.ZodType<Prisma.song_genre_genreFindUniqueArgs> = z.object({
-  select: song_genre_genreSelectSchema.optional(),
-  where: song_genre_genreWhereUniqueInputSchema,
-}).strict() ;
-
-export const song_genre_genreFindUniqueOrThrowArgsSchema: z.ZodType<Prisma.song_genre_genreFindUniqueOrThrowArgs> = z.object({
-  select: song_genre_genreSelectSchema.optional(),
-  where: song_genre_genreWhereUniqueInputSchema,
-}).strict() ;
-
 export const userFindFirstArgsSchema: z.ZodType<Prisma.userFindFirstArgs> = z.object({
   select: userSelectSchema.optional(),
   where: userWhereInputSchema.optional(),
@@ -3302,43 +3116,6 @@ export const external_idsUpdateManyArgsSchema: z.ZodType<Prisma.external_idsUpda
 
 export const external_idsDeleteManyArgsSchema: z.ZodType<Prisma.external_idsDeleteManyArgs> = z.object({
   where: external_idsWhereInputSchema.optional(),
-}).strict() ;
-
-export const song_genre_genreCreateArgsSchema: z.ZodType<Prisma.song_genre_genreCreateArgs> = z.object({
-  select: song_genre_genreSelectSchema.optional(),
-  data: z.union([ song_genre_genreCreateInputSchema,song_genre_genreUncheckedCreateInputSchema ]),
-}).strict() ;
-
-export const song_genre_genreUpsertArgsSchema: z.ZodType<Prisma.song_genre_genreUpsertArgs> = z.object({
-  select: song_genre_genreSelectSchema.optional(),
-  where: song_genre_genreWhereUniqueInputSchema,
-  create: z.union([ song_genre_genreCreateInputSchema,song_genre_genreUncheckedCreateInputSchema ]),
-  update: z.union([ song_genre_genreUpdateInputSchema,song_genre_genreUncheckedUpdateInputSchema ]),
-}).strict() ;
-
-export const song_genre_genreCreateManyArgsSchema: z.ZodType<Prisma.song_genre_genreCreateManyArgs> = z.object({
-  data: z.union([ song_genre_genreCreateManyInputSchema,song_genre_genreCreateManyInputSchema.array() ]),
-  skipDuplicates: z.boolean().optional(),
-}).strict() ;
-
-export const song_genre_genreDeleteArgsSchema: z.ZodType<Prisma.song_genre_genreDeleteArgs> = z.object({
-  select: song_genre_genreSelectSchema.optional(),
-  where: song_genre_genreWhereUniqueInputSchema,
-}).strict() ;
-
-export const song_genre_genreUpdateArgsSchema: z.ZodType<Prisma.song_genre_genreUpdateArgs> = z.object({
-  select: song_genre_genreSelectSchema.optional(),
-  data: z.union([ song_genre_genreUpdateInputSchema,song_genre_genreUncheckedUpdateInputSchema ]),
-  where: song_genre_genreWhereUniqueInputSchema,
-}).strict() ;
-
-export const song_genre_genreUpdateManyArgsSchema: z.ZodType<Prisma.song_genre_genreUpdateManyArgs> = z.object({
-  data: z.union([ song_genre_genreUpdateManyMutationInputSchema,song_genre_genreUncheckedUpdateManyInputSchema ]),
-  where: song_genre_genreWhereInputSchema.optional(),
-}).strict() ;
-
-export const song_genre_genreDeleteManyArgsSchema: z.ZodType<Prisma.song_genre_genreDeleteManyArgs> = z.object({
-  where: song_genre_genreWhereInputSchema.optional(),
 }).strict() ;
 
 export const userCreateArgsSchema: z.ZodType<Prisma.userCreateArgs> = z.object({

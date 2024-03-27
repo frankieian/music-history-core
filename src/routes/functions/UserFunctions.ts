@@ -152,18 +152,23 @@ async function getUserHistory(id: number, filters: userHistoryBody) {
     }
   )
 
-  let songs = await prisma.song.findMany({
-    where: {
-      id: {
-        in: data.map(o => o.song_id)
-      }
-    }
-  })
+  let songs = await prisma.$queryRaw`
+    select song.id, song.name as song_name, artist.name as artist_name from song
+    inner join artist_song
+    on artist_song.song_id = song.id
+    inner join artist
+    on artist_song.artist_id = artist.id
+  ` as {id: string, song_name: string, artist_name: string} []
+
 
   let songData:any = {}
 
   songs.forEach(o => {
-    songData[o.id] = {name: o.name}
+    if(songData[o.id]) {
+      songData[o.id].artist_name.push(o.artist_name)
+    }else {
+      songData[o.id] =  {song_name: o.song_name, artist_name: [o.artist_name]}
+    }
   })
 
   return {

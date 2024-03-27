@@ -22,7 +22,6 @@ model artist_genre {
   genre_id  Int
 
   @@id([artist_id, genre_id])
-  @@index([genre_id], map: "idx_genre_id")
 }
 
 model artist_song {
@@ -71,7 +70,6 @@ model song_genre {
   genre_id Int
 
   @@id([song_id, genre_id])
-  @@index([genre_id], map: "idx_genre_id")
 }
 
 model external_ids {
@@ -81,14 +79,6 @@ model external_ids {
   external_id String? @db.VarChar(255)
 
   @@id([table_name, id])
-}
-
-model song_genre_genre {
-  song_genre_genre_id Int
-  genre_id            Int
-
-  @@id([song_genre_genre_id, genre_id])
-  @@index([genre_id], map: "genre_id")
 }
 
 model user {
